@@ -1,0 +1,3 @@
+tests
+-----
+.. automodule:: pyfare.test
