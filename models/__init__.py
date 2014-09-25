@@ -13,8 +13,6 @@ Securly store and retrieve target data.
 """
 from __future__ import division, absolute_import, print_function, unicode_literals
 import settings
-from .security import encode, decode_sector
-from .storage import Target, TargetStore
 from Crypto import Random
 
 class Block(object):
@@ -106,28 +104,16 @@ class Token(object):
         """Return the UID"""
         return self.sectors[0].blocks[0].uid()  
 
-    def load(self, sector = settings.SECTOR):
-        """Load a single, configuration defined, sector from storage"""
+    def load(self):
         self._can_save = False
-        self.sectors[sector].load(
-            decode_sector(
-                Target(
-                    TargetStore(),
-                    self.uid()
-                ).read(),
-                sector
-            )
-        )
+        with open(self.uid() + '.dat', 'rb') as infile:
+            for sector in self.sectors:
+                sector.load(
+                    infile.read(64)
+                )
 
     def save(self):
-        """Save to (encrypted) storage"""
         if not(self._can_save):
             raise Exception("Don't overwrite existing tokens.")
-        Target(
-            TargetStore(),
-            self.uid()
-        ).write(
-            encode(
-                self.raw()
-            )
-        )
+        with open(self.uid() + '.dat', 'wb') as outfile:
+            outfile.write(self.raw())

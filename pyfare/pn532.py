@@ -107,3 +107,9 @@ class PN532(object):
                 self._logical_target = response[-9] #>1 card in field (we use last)
                 self._target = response[-4:]
                 return self._target
+
+    def unlock(self):
+        """Fire the reader's GPIO (to trigger door lock)"""
+        self._cmd(b'\x0E\x80\x00')
+        time.sleep(.2)
+        self._cmd(b'\x0E\x81\x00')

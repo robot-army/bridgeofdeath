@@ -47,7 +47,7 @@ class NFC(object):
         if self._reader.auth(settings.SECTOR * 4, token.sectors[settings.SECTOR].key_a):
             buf = self._reader.read(settings.SECTOR * 4)
             if buf != None:
-                return buf == token.sectors[settings.SECTOR].block[0]
+                return buf == token.sectors[settings.SECTOR].blocks[0].data
         else:
             return False
 
@@ -78,7 +78,7 @@ class NFC(object):
                     #Re-auth with new key
                     if self._reader.auth(
                         sector * 4 + 3,
-                        token.sector[sector].key_a
+                        token.sectors[sector].key_a
                     ):
                         for block in range(3):
                             if sector != 0 or block != 0:
