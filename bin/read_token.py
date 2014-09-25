@@ -1,4 +1,4 @@
-#! /usr/bin/python2.7 -OO
+#! python
 # -*- coding: utf-8 -*-
 """
 
