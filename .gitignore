@@ -3,3 +3,4 @@
 /.coverage
 /doc/_build
 private.pem
+*.dat
