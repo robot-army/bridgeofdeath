@@ -10,6 +10,8 @@ We need very paranoid logging as everything must work first time.
 :Authors: Barnaby Shearer <b@Zi.iS>
 :References:
     `pylint <../../../cover/logger.lint.html>`_,
+    `coverage <../../../cover/logger___init__.html>`_
+    :doc:`logger.test`
 """
 
 from __future__ import division, absolute_import, print_function, unicode_literals
@@ -46,10 +48,8 @@ def Log(name):
     )
     maillog.setLevel(logging.ERROR)
     self.addHandler(maillog)
-    if settings.DEBUG:
-        console = logging.StreamHandler()
-        console.setLevel(logging.DEBUG)
-        self.addHandler(console)
-    else:
-        sys.excepthook = lambda *exc_info: self.error("Unhandled exception:", exc_info=exc_info) # pragma: no cover
+    #console = logging.StreamHandler()
+    #console.setLevel(logging.DEBUG)
+    #self.addHandler(console)
+    #sys.excepthook = lambda *exc_info: self.error("Unhandled exception:", exc_info=exc_info) # pragma: no cover
     return self

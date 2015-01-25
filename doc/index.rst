@@ -5,8 +5,11 @@ Bridge of Death
    :maxdepth: 2
 
    pyfare
-   models
+   secrecy
+   storage
+   hd44780
    logger
+   bin
 
 Indices and tables
 ==================

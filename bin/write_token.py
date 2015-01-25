@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python2.7 -OO
 # -*- coding: utf-8 -*-
 """
 
@@ -14,8 +14,11 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../"))
 import logger
 LOG = logger.Log(__file__)
 import pyfare
-import models
 import settings
+
+def _id(target):
+    """Format binary uid for storage/lookup"""
+    return ''.join([hex(char) for char in bytearray(target)])
 
 def main():
     """
@@ -25,12 +28,19 @@ def main():
     """
     nfc = pyfare.NFC(settings.ENTER)
     target = nfc.waitfortarget()
-    token = models.Token(target)
-    oldtoken = models.Token(target)
-    token.randomize()
-    LOG.info("Writing card: " + token.uid())
-    token.save()
-    nfc.write_all(oldtoken, token)
+    LOG.info("Writing card: " + _id(target))
+    #TODO: secrecy and ldap
+    with open(_id(target) + '.dat', 'wb') as output:
+        oldtoken = bytearray(nfc.blank(target))
+        token = nfc.generate(target)
+        output.write(token)
+        success = False       
+        try:
+            success = nfc.write_all(oldtoken, token)
+        finally:
+            if not(success):
+                with open('_RECOVER_.dat', 'wb') as recover:
+                    recover.write(oldtoken)
 
 if __name__ == "__main__":
     main()

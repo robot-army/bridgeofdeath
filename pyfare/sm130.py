@@ -4,6 +4,7 @@ Sonmicro SM130 RFID Mifare® read/write module.
 """
 from __future__ import division, absolute_import, print_function, unicode_literals
 import time
+import serial
 
 class SM130(object):
     """
@@ -98,7 +99,8 @@ class SM130(object):
                     return self._target            
 
     def unlock(self):
-        """Fire the reader's GPIO (to trigger door lock)"""
-        self._cmd(b'\x92\x03')
-        time.sleep(.2)
-        self._cmd(b'\x92\x00')
+        ss = serial.Serial('/dev/ttyACM0',115200)
+        ss.write('\x05')
+        #self._cmd(b'\x92\x03')
+        #time.sleep(.2)
+        #self._cmd(b'\x92\x00')

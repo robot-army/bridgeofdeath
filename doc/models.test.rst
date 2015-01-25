@@ -1,3 +1,0 @@
-tests
------
-.. automodule:: models.test

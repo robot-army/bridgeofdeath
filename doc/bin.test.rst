@@ -1,0 +1,3 @@
+tests
+-----
+.. automodule:: bin.test

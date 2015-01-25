@@ -1,0 +1,3 @@
+tests
+-----
+.. automodule:: secrecy.test

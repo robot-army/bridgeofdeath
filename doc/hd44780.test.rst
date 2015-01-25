@@ -1,0 +1,3 @@
+tests
+-----
+.. automodule:: hd44780.test
